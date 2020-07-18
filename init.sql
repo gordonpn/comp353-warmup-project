@@ -1,3 +1,4 @@
+-- Do not change the order of execution
 CREATE TABLE ReaderInterest
 (
     ReaderInterestID          int NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -82,7 +83,7 @@ SET time_zone = '-04:00';
 CREATE TABLE Orders
 (
     OrderNumber int NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    OrderDate   TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    OrderDate   timestamp DEFAULT CURRENT_TIMESTAMP,
     Customer    int,
     Branch      int NOT NULL,
     Publisher   int NOT NULL,
@@ -117,10 +118,10 @@ CREATE TABLE OrderDetails
 CREATE TABLE Inventory
 (
     InventoryID int NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    BookstoreID int NOT NULL,
+    Bookstore   int NOT NULL,
     ISBN        int NOT NULL,
     Quantity    int NOT NULL,
-    FOREIGN KEY (BookstoreID) REFERENCES Bookstore (BookstoreID),
+    FOREIGN KEY (Bookstore) REFERENCES Bookstore (BookstoreID),
     FOREIGN KEY (ISBN) REFERENCES Books (ISBN)
 );
 
