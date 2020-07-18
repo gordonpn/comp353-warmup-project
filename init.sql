@@ -88,6 +88,7 @@ CREATE TABLE Orders
     Branch      int NOT NULL,
     Publisher   int NOT NULL,
     Bookstore   int,
+    totalPrice  int NOT NULL,
     FOREIGN KEY (Customer) REFERENCES Customer (CustomerID),
     FOREIGN KEY (Branch) REFERENCES Branch (BranchID),
     FOREIGN KEY (Publisher) REFERENCES Publisher (PublisherID),
@@ -107,10 +108,11 @@ CREATE TABLE Books
 
 CREATE TABLE OrderDetails
 (
-    OrderDetailsID int NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    OrderNumber    int NOT NULL,
-    ISBN           int NOT NULL,
-    Quantity       int NOT NULL,
+    OrderDetailsID 	 int NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    OrderNumber    	 int NOT NULL,
+    ISBN           	 int NOT NULL,
+    Quantity       	 int NOT NULL,
+    orderDetailPrice int NOT NULL,
     FOREIGN KEY (OrderNumber) REFERENCES Orders (OrderNumber),
     FOREIGN KEY (ISBN) REFERENCES Books (ISBN)
 );
@@ -121,6 +123,7 @@ CREATE TABLE Inventory
     Bookstore   int NOT NULL,
     ISBN        int NOT NULL,
     Quantity    int NOT NULL,
+    stockDate   timestamp DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (Bookstore) REFERENCES Bookstore (BookstoreID),
     FOREIGN KEY (ISBN) REFERENCES Books (ISBN)
 );
