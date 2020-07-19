@@ -17,8 +17,8 @@ WHERE o.OrderID = od.OrderID
   AND b.ISBN = i.ISBN
   AND b.AuthorID = a.AuthorID
   AND i.Quantity > 0
-GROUP BY b.ISBN
-ORDER BY o.OrderDate, od.Quantity DESC;
+GROUP BY b.ISBN 
+ORDER BY o.OrderDate DESC, od.Quantity DESC;
 
 -- question 3.2 Get details of all back orders for a given publisher.
 SELECT od.OrderDetailsID, od.OrderID, od.ISBN, od.Quantity
