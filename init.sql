@@ -85,13 +85,9 @@ CREATE TABLE Orders
     OrderNumber int NOT NULL AUTO_INCREMENT PRIMARY KEY,
     OrderDate   timestamp DEFAULT CURRENT_TIMESTAMP,
     Customer    int,
-    Branch      int NOT NULL,
-    Publisher   int NOT NULL,
     Bookstore   int,
     totalPrice  decimal(5,2) NOT NULL,
     FOREIGN KEY (Customer) REFERENCES Customer (CustomerID),
-    FOREIGN KEY (Branch) REFERENCES Branch (BranchID),
-    FOREIGN KEY (Publisher) REFERENCES Publisher (PublisherID),
     FOREIGN KEY (Bookstore) REFERENCES Bookstore (BookstoreID)
 );
 
@@ -114,9 +110,13 @@ CREATE TABLE OrderDetails
     OrderNumber    	 int NOT NULL,
     ISBN           	 int NOT NULL,
     Quantity       	 int NOT NULL,
+    Branch      int NOT NULL,
+    Publisher   int NOT NULL,
     orderDetailPrice decimal(5,2) NOT NULL,
     FOREIGN KEY (OrderNumber) REFERENCES Orders (OrderNumber),
-    FOREIGN KEY (ISBN) REFERENCES Books (ISBN)
+    FOREIGN KEY (ISBN) REFERENCES Books (ISBN),
+    FOREIGN KEY (Branch) REFERENCES Branch (BranchID),
+    FOREIGN KEY (Publisher) REFERENCES Publisher (PublisherID)
 );
 
 CREATE TABLE Inventory
