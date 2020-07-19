@@ -88,7 +88,7 @@ CREATE TABLE Orders
     Branch      int NOT NULL,
     Publisher   int NOT NULL,
     Bookstore   int,
-    totalPrice  decimal NOT NULL,
+    totalPrice  decimal(5,2) NOT NULL,
     FOREIGN KEY (Customer) REFERENCES Customer (CustomerID),
     FOREIGN KEY (Branch) REFERENCES Branch (BranchID),
     FOREIGN KEY (Publisher) REFERENCES Publisher (PublisherID),
@@ -101,8 +101,8 @@ CREATE TABLE Books
     Subject      varchar(255),
     Author       int          NOT NULL,
     Title        varchar(255) NOT NULL,
-    SellingPrice decimal          NOT NULL,
-    CostPrice    decimal          NOT NULL,
+    SellingPrice decimal(5,2) NOT NULL,
+    CostPrice    decimal(5,2) NOT NULL,
     FOREIGN KEY (Author) REFERENCES Author (AuthorID)
 );
 
@@ -112,7 +112,7 @@ CREATE TABLE OrderDetails
     OrderNumber    	 int NOT NULL,
     ISBN           	 int NOT NULL,
     Quantity       	 int NOT NULL,
-    orderDetailPrice decimal NOT NULL,
+    orderDetailPrice decimal(5,2) NOT NULL,
     FOREIGN KEY (OrderNumber) REFERENCES Orders (OrderNumber),
     FOREIGN KEY (ISBN) REFERENCES Books (ISBN)
 );
