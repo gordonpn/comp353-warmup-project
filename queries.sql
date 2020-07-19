@@ -64,12 +64,14 @@ SELECT o.OrderID,
        b.Name,
        p.PublisherName,
        o.BookstoreID,
-       od.orderDetailPrice AS Total,
+       (SELECT bo.SellingPrice FROM Books WHERE od.ISBN = bo.ISBN) * od.Quantity AS Total,
+#        od.orderDetailPrice AS Total,
        o.OrderDate,
        b.BranchID
 FROM Orders AS o,
      Customers AS c,
      Branches AS b,
+     Books AS bo,
      Publishers AS p,
      OrderDetails AS od
 WHERE o.OrderID = od.OrderID
@@ -78,8 +80,6 @@ WHERE o.OrderID = od.OrderID
   AND b.BranchID = 1
   AND p.PublisherID = od.PublisherID
   AND Date(o.OrderDate) BETWEEN 'YYYY-MM-DD' AND 'YYYY-MM-DD';
-
-
 
 -- question 3.6 Find the title and name of publisher of book(s) that have the highest backorder
 
@@ -117,7 +117,6 @@ WHERE b.RepresentativeID = r.RepresentativeID
     GROUP BY b.PublisherID
     HAVING Count(*) >= 3);
 
-
 -- question 3.9 Get details of books that are in the inventory for at least one year but there have never been a purchase for that specific book.
 SELECT b.ISBN, a.Name, b.Title, b.SellingPrice, b.CostPrice, p.PublisherName
 FROM Books AS b,
@@ -129,7 +128,6 @@ WHERE b.PublisherID = p.PublisherID
   AND i.ISBN = b.ISBN
   AND b.ISBN NOT IN (SELECT od.ISBN FROM OrderDetails AS od)
   AND DATEDIFF(NOW(), i.stockDate) >= 1;
-
 
 -- question 3.10 Get details of all books that are in the inventory for a given author. 
 SELECT b.ISBN, a.Name, b.Title, b.SellingPrice, b.CostPrice, p.PublisherName

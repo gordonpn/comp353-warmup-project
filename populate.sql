@@ -1,79 +1,166 @@
 -- Do not change the order of execution
 -- Other values may be added
-INSERT INTO ReaderInterest(ReaderInterestName, ReaderInterestDescription)
+INSERT INTO ReaderInterests(ReaderInterestName, ReaderInterestDescription)
 VALUES ('Science fiction', 'science that is fiction'),
        ('Fiction', 'fiction that is not science'),
        ('Romance', 'people in love'),
-       ('Comedy', 'makes you laugh');
+       ('Comedy', 'makes you laugh'),
+       ('Mystery', 'some sort of crime'),
+       ('Fantasy', 'imagination'),
+       ('Classics', 'assigned in English class'),
+       ('Adventure', 'Amos Daragon'),
+       ('Horror', 'paranormal stuff'),
+       ('Cookbooks', 'makes you hungry');
 
-INSERT INTO Author(Name)
+INSERT INTO Authors(Name)
 VALUES ('Leo Jr Silao'),
        ('Gordon Pham-Nguyen'),
        ('Tiffany Zeng'),
-       ('Arunraj Adlee');
+       ('Arunraj Adlee'),
+       ('Malcolm Gladwell'),
+       ('Yuval Noah Harari'),
+       ('Daniel Kahneman'),
+       ('Khaled Jababo'),
+       ('Robert Bourassa'),
+       ('Donald Trump');
 
-INSERT INTO Location(Address, PostalCode, City, Province)
+INSERT INTO Locations(Address, PostalCode, City, Province)
 VALUES ('1500 McGill College Ave', 'H3A 3J5', 'Montreal', 'Quebec'),
        ('116 Bond St', 'M5B 1X8', 'Toronto', 'Ontario'),
        ('1198 Commercial Dr', 'V5L 3X2', 'Vancouver', 'British Columbia'),
-       ('12 E 49th St', '10017', 'New York', 'New York');
+       ('12 E 49th St', '10017', 'Manhattan', 'New York'),
+       ('2131 Timber Ridge Road', '95814', 'Sacramento', 'California'),
+       ('3010 Jarvisville Road', '10016', 'Manhattan', 'New York'),
+       ('2114 Goldleaf Lane', '07662', 'Rochelle Park', 'New Jersey'),
+       ('4489 Pine Street', '15219', 'Pittsburgh', 'Pennsylvania'),
+       ('3788 Lowland Drive', '61081', 'Sterling', 'Illinois'),
+       ('1300 Goodwin Avenue', '99206', 'Spokane Valley', 'Washington');
 
-INSERT INTO Representative(Name)
-VALUES ('Leo Jr Silao'),
-       ('Gordon Pham-Nguyen'),
-       ('Tiffany Zeng'),
-       ('Arunraj Adlee');
+INSERT INTO Representatives(Name)
+VALUES ('Laura J Bell'),
+       ('Violet J Hazelip'),
+       ('Gladys C Clay'),
+       ('Tyrell M Barret'),
+       ('James R Hadsell'),
+       ('Karen D Damon'),
+       ('Frances A Kitson'),
+       ('Thomas R Stevenson'),
+       ('Janet E Fields'),
+       ('Marissa J Poindexter')
+;
 
-INSERT INTO HeadOffice(Location)
+INSERT INTO HeadOffices(LocationID)
 VALUES (1),
        (2),
        (3),
-       (4);
+       (4),
+       (5),
+       (6),
+       (7),
+       (8),
+       (9),
+       (10);
 
-INSERT INTO Publisher(PublisherName, CompanyName, HeadOffice)
-VALUES ('Gordon', 'Gordon', 1),
-       ('Leo', 'Leo', 2),
-       ('Tiffany', 'Tiffany', 3),
-       ('Arunraj', 'Arunraj', 4);
+INSERT INTO Publishers(PublisherName, CompanyName, HeadOfficeID)
+VALUES ('Sound Advice', 'Sound Advice', 1),
+       ('Parade of Shoes', 'Parade of Shoes', 2),
+       ('Jacob Reed and Sons', 'Jacob Reed and Sons', 3),
+       ('Body Toning', 'Body Toning', 4),
+       ('Copeland Sports', 'Copeland Sports', 5),
+       ('Xray Eye & Vision Clinics', 'Xray Eye & Vision Clinics', 6),
+       ('Pomeroy', 'Pomeroy', 7),
+       ('Silverwoods', 'Silverwoods', 8),
+       ('Boston Sea Party', 'Boston Sea Party', 9),
+       ('Rolling Thunder', 'Rolling Thunder', 10);
 
-INSERT INTO Branch(Location, Representative, Publisher)
+INSERT INTO Branches(LocationID, RepresentativeID, PublisherID)
 VALUES (1, 1, 1),
        (2, 2, 2),
        (3, 3, 3),
-       (4, 4, 4);
+       (4, 4, 4),
+       (5, 5, 5),
+       (6, 6, 6),
+       (7, 7, 7),
+       (8, 8, 8),
+       (9, 9, 9),
+       (10, 10, 10);
 
-INSERT INTO Customer(CompanyName, Location)
-VALUES ('Gordon', 1),
-       ('Leo', 2),
-       ('Tiffany', 3),
-       ('Arunraj', 4);
+INSERT INTO Customers(CompanyName, LocationID)
+VALUES ('Mistimba', 1),
+       ('Cervor', 2),
+       ('Peric', 3),
+       ('Geotri', 4),
+       ('Fronter', 5),
+       ('Cynize', 6),
+       ('Metatude', 7),
+       ('Aurous', 8),
+       ('Capive', 9),
+       ('Camimbee', 10);
 
-INSERT INTO Bookstore(ReaderInterest)
+INSERT INTO Bookstores(ReaderInterestID)
 VALUES (1),
        (2),
        (3),
-       (4);
+       (4),
+       (5),
+       (6),
+       (7),
+       (8),
+       (9),
+       (10);
 
-INSERT INTO Orders(Bookstore, PublisherID, totalPrice)
-VALUES (1, 1),
-       (2, 2),
-       (3, 3),
-       (4, 4);
+# TODO why does TotalPrice exist?
+INSERT INTO Orders(CustomerID, BookstoreID, PublisherID, TotalPrice)
+VALUES (NULL, 4, 3, 1234.43),
+       (NULL, 2, 10, 643.65),
+       (5, NULL, 3, 974.54),
+       (1, NULL, 4, 2134.30),
+       (NULL, 5, 1, 45.23),
+       (5, NULL, 2, 784.34),
+       (4, NULL, 5, 324.35),
+       (NULL, 6, 6, 666.66),
+       (NULL, 8, 9, 342.97),
+       (NULL, 7, 8, 87.23),
+       (8, NULL, 7, 673.18),
+       (5, NULL, 8, 83764.38);
 
-INSERT INTO Books(Author, Title, SellingPrice, CostPrice)
-VALUES (1, 'ayylmao', 50, 2),
-       (2, 'hydrapeak', 30, 25),
-       (3, 'MEC', 10, 20),
-       (4, 'Water', 30, 5);
+INSERT INTO Books(AuthorID, PublisherID, Title, SellingPrice, CostPrice)
+VALUES (1, 1, 'Clue of the Split Creek', 54.97, 19.22),
+       (2, 2, 'Sign of the Ghostly Amulet', 58.38, 99.88),
+       (3, 3, 'The Ebony Window', 10.84, 19.54),
+       (4, 4, 'Death of the Shrieking Shih Tzu', 18.74, 40.29),
+       (5, 5, 'The Cobalt Curtain', 55.11, 85.04),
+       (6, 6, 'The Crown in the Abyss', 60.81, 59.54),
+       (7, 7, 'Zenith of Polaris', 80.64, 1.51),
+       (8, 8, 'The Stranger in the Painting', 20.91, 43.47),
+       (9, 9, 'Crime of the Pock-Marked Poet', 82.07, 32.20),
+       (10, 10, 'Fatal Gun', 72.93, 22.25);
 
-INSERT INTO OrderDetails(OrderNumber, ISBN, Quantity)
+# TODO populate this table
+INSERT INTO OrderDetails(OrderID, ISBN, Quantity, BranchID, PublisherID, OrderDetailPrice)
 VALUES (1, 1, 50),
        (2, 1, 40),
        (3, 3, 2),
        (4, 4, 10);
 
-INSERT INTO Inventory(Bookstore, ISBN, Quantity)
-VALUES (1, 1, 40),
-       (2, 2, 40),
-       (3, 3, 10),
-       (4, 4, 20);
+INSERT INTO Inventories(BookstoreID, ISBN, Quantity)
+VALUES (1, 10, 10),
+       (1, 2, 45),
+       (1, 3, 20),
+       (1, 4, 30),
+       (1, 2, 10),
+       (2, 8, 10),
+       (4, 9, 20),
+       (3, 6, 20),
+       (8, 10, 10),
+       (3, 4, 20),
+       (8, 3, 40),
+       (7, 3, 5),
+       (6, 7, 5),
+       (6, 2, 4),
+       (5, 10, 1),
+       (4, 1, 2),
+       (9, 2, 4),
+       (10, 1, 100),
+       (3, 4, 50);
+
