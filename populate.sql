@@ -54,7 +54,7 @@ VALUES (1),
        (3),
        (4);
 
-INSERT INTO Orders(Branch, Publisher)
+INSERT INTO Orders(Bookstore, PublisherID, totalPrice)
 VALUES (1, 1),
        (2, 2),
        (3, 3),

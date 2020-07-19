@@ -1,18 +1,18 @@
 -- Do not change the order of execution
-CREATE TABLE ReaderInterest
+CREATE TABLE ReaderInterests
 (
     ReaderInterestID          int NOT NULL AUTO_INCREMENT PRIMARY KEY,
     ReaderInterestName        varchar(255),
     ReaderInterestDescription varchar(255)
 );
 
-CREATE TABLE Author
+CREATE TABLE Authors
 (
     AuthorID int          NOT NULL AUTO_INCREMENT PRIMARY KEY,
     Name     varchar(255) NOT NULL
 );
 
-CREATE TABLE Location
+CREATE TABLE Locations
 (
     LocationID      int          NOT NULL AUTO_INCREMENT PRIMARY KEY,
     TelephoneNumber int,
@@ -22,111 +22,113 @@ CREATE TABLE Location
     Province        varchar(255) NOT NULL
 );
 
-CREATE TABLE Representative
+CREATE TABLE Representatives
 (
     RepresentativeID int          NOT NULL AUTO_INCREMENT PRIMARY KEY,
     EmailAddress     varchar(255),
     Name             varchar(255) NOT NULL
 );
 
-CREATE TABLE HeadOffice
+CREATE TABLE HeadOffices
 (
     HeadOfficeID int NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    Location     int NOT NULL,
-    FOREIGN KEY (Location) REFERENCES Location (LocationID)
+    LocationID   int NOT NULL,
+    FOREIGN KEY (LocationID) REFERENCES Locations (LocationID)
 );
 
-CREATE TABLE Publisher
+CREATE TABLE Publishers
 (
     PublisherID   int          NOT NULL AUTO_INCREMENT PRIMARY KEY,
     PublisherName varchar(255) NOT NULL,
     CompanyName   varchar(255) NOT NULL,
     EmailAddress  varchar(255),
     Website       varchar(255),
-    HeadOffice    int          NOT NULL,
-    FOREIGN KEY (HeadOffice) REFERENCES HeadOffice (HeadOfficeID)
+    HeadOfficeID  int          NOT NULL,
+    FOREIGN KEY (HeadOfficeID) REFERENCES HeadOffices (HeadOfficeID)
 );
 
-CREATE TABLE Branch
+CREATE TABLE Branches
 (
-    BranchID       int NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    Name           varchar(255),
-    Location       int NOT NULL,
-    Representative int NOT NULL,
-    Publisher      int NOT NULL,
-    FOREIGN KEY (Location) REFERENCES Location (LocationID),
-    FOREIGN KEY (Representative) REFERENCES Representative (RepresentativeID),
-    FOREIGN KEY (Publisher) REFERENCES Publisher (PublisherID)
+    BranchID         int NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    Name             varchar(255),
+    LocationID       int NOT NULL,
+    RepresentativeID int NOT NULL,
+    PublisherID      int NOT NULL,
+    FOREIGN KEY (LocationID) REFERENCES Locations (LocationID),
+    FOREIGN KEY (RepresentativeID) REFERENCES Representatives (RepresentativeID),
+    FOREIGN KEY (PublisherID) REFERENCES Publishers (PublisherID)
 );
 
 
-CREATE TABLE Customer
+CREATE TABLE Customers
 (
     CustomerID   int          NOT NULL AUTO_INCREMENT PRIMARY KEY,
     CompanyName  varchar(255) NOT NULL,
     FirstName    varchar(255),
     LastName     varchar(255),
     EmailAddress varchar(255),
-    Location     int          NOT NULL,
-    FOREIGN KEY (Location) REFERENCES Location (LocationID)
+    LocationID   int          NOT NULL,
+    FOREIGN KEY (LocationID) REFERENCES Locations (LocationID)
 );
 
-CREATE TABLE Bookstore
+CREATE TABLE Bookstores
 (
-    BookstoreID    int NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    ReaderInterest int NOT NULL,
-    FOREIGN KEY (ReaderInterest) REFERENCES ReaderInterest (ReaderInterestID)
+    BookstoreID      int NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    ReaderInterestID int NOT NULL,
+    FOREIGN KEY (ReaderInterestID) REFERENCES ReaderInterests (ReaderInterestID)
 );
 
 SET time_zone = '-04:00';
 
 CREATE TABLE Orders
 (
-    OrderNumber int NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    OrderID     int           NOT NULL AUTO_INCREMENT PRIMARY KEY,
     OrderDate   timestamp DEFAULT CURRENT_TIMESTAMP,
-    Customer    int,
-    Bookstore   int,
-    totalPrice  decimal(5,2) NOT NULL,
-    FOREIGN KEY (Customer) REFERENCES Customer (CustomerID),
-    FOREIGN KEY (Bookstore) REFERENCES Bookstore (BookstoreID)
+    CustomerID  int,
+    BookstoreID int,
+    PublisherID int,
+    TotalPrice  decimal(5, 2) NOT NULL,
+    FOREIGN KEY (CustomerID) REFERENCES Customers (CustomerID),
+    FOREIGN KEY (BookstoreID) REFERENCES Bookstores (BookstoreID),
+    FOREIGN KEY (PublisherID) REFERENCES Publishers (PublisherID)
 );
 
 CREATE TABLE Books
 (
-    ISBN         int          NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    ISBN         int           NOT NULL AUTO_INCREMENT PRIMARY KEY,
     Subject      varchar(255),
-    Author       int          NOT NULL,
-    Publisher    int 		  NOT NULL,
-    Title        varchar(255) NOT NULL,
-    SellingPrice decimal(5,2) NOT NULL,
-    CostPrice    decimal(5,2) NOT NULL,
-    FOREIGN KEY (Author) REFERENCES Author (AuthorID),
-	FOREIGN KEY (Publisher) REFERENCES Publisher (PublisherID)
+    AuthorID     int           NOT NULL,
+    PublisherID  int           NOT NULL,
+    Title        varchar(255)  NOT NULL,
+    SellingPrice decimal(5, 2) NOT NULL,
+    CostPrice    decimal(5, 2) NOT NULL,
+    FOREIGN KEY (AuthorID) REFERENCES Authors (AuthorID),
+    FOREIGN KEY (PublisherID) REFERENCES Publishers (PublisherID)
 );
 
 CREATE TABLE OrderDetails
 (
-    OrderDetailsID 	 int NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    OrderNumber    	 int NOT NULL,
-    ISBN           	 int NOT NULL,
-    Quantity       	 int NOT NULL,
-    Branch      int NOT NULL,
-    Publisher   int NOT NULL,
-    orderDetailPrice decimal(5,2) NOT NULL,
-    FOREIGN KEY (OrderNumber) REFERENCES Orders (OrderNumber),
+    OrderDetailsID   int           NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    OrderID          int           NOT NULL,
+    ISBN             int           NOT NULL,
+    Quantity         int           NOT NULL,
+    BranchID         int           NOT NULL,
+    PublisherID      int           NOT NULL,
+    OrderDetailPrice decimal(5, 2) NOT NULL,
+    FOREIGN KEY (OrderID) REFERENCES Orders (OrderID),
     FOREIGN KEY (ISBN) REFERENCES Books (ISBN),
-    FOREIGN KEY (Branch) REFERENCES Branch (BranchID),
-    FOREIGN KEY (Publisher) REFERENCES Publisher (PublisherID)
+    FOREIGN KEY (BranchID) REFERENCES Branches (BranchID),
+    FOREIGN KEY (PublisherID) REFERENCES Publishers (PublisherID)
 );
 
-CREATE TABLE Inventory
+CREATE TABLE Inventories
 (
     InventoryID int NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    Bookstore   int NOT NULL,
+    BookstoreID int NOT NULL,
     ISBN        int NOT NULL,
     Quantity    int NOT NULL,
-    stockDate   timestamp DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (Bookstore) REFERENCES Bookstore (BookstoreID),
+    StockDate   timestamp DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (BookstoreID) REFERENCES Bookstores (BookstoreID),
     FOREIGN KEY (ISBN) REFERENCES Books (ISBN)
 );
 
