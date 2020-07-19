@@ -100,11 +100,12 @@ CREATE TABLE Books
     ISBN         int          NOT NULL AUTO_INCREMENT PRIMARY KEY,
     Subject      varchar(255),
     Author       int          NOT NULL,
+    Publisher    int 		  NOT NULL,
     Title        varchar(255) NOT NULL,
     SellingPrice decimal(5,2) NOT NULL,
     CostPrice    decimal(5,2) NOT NULL,
     FOREIGN KEY (Author) REFERENCES Author (AuthorID),
-    FOREIGN KEY (Publisher) REFERENCES Publisher (PublisherID)
+	FOREIGN KEY (Publisher) REFERENCES Publisher (PublisherID)
 );
 
 CREATE TABLE OrderDetails
