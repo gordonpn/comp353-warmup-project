@@ -82,12 +82,11 @@ SET time_zone = '-04:00';
 
 CREATE TABLE Orders
 (
-    OrderID     int           NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    OrderID     int NOT NULL AUTO_INCREMENT PRIMARY KEY,
     OrderDate   timestamp DEFAULT CURRENT_TIMESTAMP,
     CustomerID  int,
     BookstoreID int,
     PublisherID int,
-    TotalPrice  decimal(5, 2) NOT NULL,
     FOREIGN KEY (CustomerID) REFERENCES Customers (CustomerID),
     FOREIGN KEY (BookstoreID) REFERENCES Bookstores (BookstoreID),
     FOREIGN KEY (PublisherID) REFERENCES Publishers (PublisherID)
@@ -108,13 +107,12 @@ CREATE TABLE Books
 
 CREATE TABLE OrderDetails
 (
-    OrderDetailsID   int           NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    OrderID          int           NOT NULL,
-    ISBN             int           NOT NULL,
-    Quantity         int           NOT NULL,
-    BranchID         int           NOT NULL,
-    PublisherID      int           NOT NULL,
-    OrderDetailPrice decimal(5, 2) NOT NULL,
+    OrderDetailsID int NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    OrderID        int NOT NULL,
+    ISBN           int NOT NULL,
+    Quantity       int NOT NULL,
+    BranchID       int NOT NULL,
+    PublisherID    int NOT NULL,
     FOREIGN KEY (OrderID) REFERENCES Orders (OrderID),
     FOREIGN KEY (ISBN) REFERENCES Books (ISBN),
     FOREIGN KEY (BranchID) REFERENCES Branches (BranchID),

@@ -109,20 +109,19 @@ VALUES (1),
        (9),
        (10);
 
-# TODO why does TotalPrice exist?
-INSERT INTO Orders(CustomerID, BookstoreID, PublisherID, TotalPrice)
-VALUES (NULL, 4, 3, 1234.43),
-       (NULL, 2, 10, 643.65),
-       (5, NULL, 3, 974.54),
-       (1, NULL, 4, 2134.30),
-       (NULL, 5, 1, 45.23),
-       (5, NULL, 2, 784.34),
-       (4, NULL, 5, 324.35),
-       (NULL, 6, 6, 666.66),
-       (NULL, 8, 9, 342.97),
-       (NULL, 7, 8, 87.23),
-       (8, NULL, 7, 673.18),
-       (5, NULL, 8, 83764.38);
+INSERT INTO Orders(CustomerID, BookstoreID, PublisherID)
+VALUES (NULL, 4, 3),
+       (NULL, 2, 10),
+       (5, NULL, 3),
+       (1, NULL, 4),
+       (NULL, 5, 1),
+       (5, NULL, 2),
+       (4, NULL, 5),
+       (NULL, 6, 6),
+       (NULL, 8, 9),
+       (NULL, 7, 8),
+       (8, NULL, 7),
+       (5, NULL, 8);
 
 INSERT INTO Books(AuthorID, PublisherID, Title, SellingPrice, CostPrice)
 VALUES (1, 1, 'Clue of the Split Creek', 54.97, 19.22),
@@ -136,12 +135,17 @@ VALUES (1, 1, 'Clue of the Split Creek', 54.97, 19.22),
        (9, 9, 'Crime of the Pock-Marked Poet', 82.07, 32.20),
        (10, 10, 'Fatal Gun', 72.93, 22.25);
 
-# TODO populate this table
-INSERT INTO OrderDetails(OrderID, ISBN, Quantity, BranchID, PublisherID, OrderDetailPrice)
-VALUES (1, 1, 50),
-       (2, 1, 40),
-       (3, 3, 2),
-       (4, 4, 10);
+INSERT INTO OrderDetails(OrderID, ISBN, Quantity, BranchID, PublisherID)
+VALUES (1, 1, 50, 1, 1),
+       (2, 2, 40, 2, 2),
+       (3, 3, 2, 3, 3),
+       (4, 4, 10, 4, 4),
+       (5, 5, 30, 5, 5),
+       (6, 6, 30, 6, 6),
+       (7, 7, 20, 7, 7),
+       (8, 8, 10, 8, 8),
+       (9, 9, 90, 9, 9),
+       (10, 10, 5, 10, 10);
 
 INSERT INTO Inventories(BookstoreID, ISBN, Quantity)
 VALUES (1, 10, 10),

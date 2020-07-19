@@ -64,7 +64,9 @@ SELECT o.OrderID,
        b.Name,
        p.PublisherName,
        o.BookstoreID,
-       (SELECT bo.SellingPrice FROM Books WHERE od.ISBN = bo.ISBN) * od.Quantity AS Total,
+       (SELECT DISTINCT boo.SellingPrice
+        FROM Books AS boo
+        WHERE od.ISBN = boo.ISBN) * od.Quantity AS Total,
 #        od.orderDetailPrice AS Total,
        o.OrderDate,
        b.BranchID
@@ -75,11 +77,12 @@ FROM Orders AS o,
      Publishers AS p,
      OrderDetails AS od
 WHERE o.OrderID = od.OrderID
-  AND c.CustomerID = o.CustomerID
+#   AND c.CustomerID = o.CustomerID
   AND b.BranchID = od.BranchID
   AND b.BranchID = 1
-  AND p.PublisherID = od.PublisherID
-  AND Date(o.OrderDate) BETWEEN 'YYYY-MM-DD' AND 'YYYY-MM-DD';
+#   AND p.PublisherID = od.PublisherID;
+  AND Date(o.OrderDate) BETWEEN '2020-01-01' AND CURRENT_TIMESTAMP
+GROUP BY od.BranchID;
 
 -- question 3.6 Find the title and name of publisher of book(s) that have the highest backorder
 
