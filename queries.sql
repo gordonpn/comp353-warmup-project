@@ -28,6 +28,7 @@ FROM OrderDetails AS od,
      Books AS b,
      Inventories AS i
 WHERE p.PublisherID = o.PublisherID
+  AND b.PublisherID = [GIVEN PublisherID]
   AND o.OrderID = od.OrderID
   AND b.ISBN = od.ISBN
   AND i.ISBN = b.ISBN
