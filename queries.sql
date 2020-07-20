@@ -17,7 +17,7 @@ WHERE o.OrderID = od.OrderID
   AND b.ISBN = i.ISBN
   AND b.AuthorID = a.AuthorID
   AND i.Quantity > 0
-GROUP BY b.ISBN 
+GROUP BY b.ISBN
 ORDER BY o.OrderDate DESC, SUM(od.Quantity) DESC;
 
 -- question 3.2 Get details of all back orders for a given publisher.
@@ -32,7 +32,8 @@ WHERE p.PublisherID = o.PublisherID
   AND o.OrderID = od.OrderID
   AND b.ISBN = od.ISBN
   AND i.ISBN = b.ISBN
-  AND i.Quantity < 1;
+  AND i.Quantity
+    < 1;
 
 -- question 3.3 For a given customer, get details of all his/her special orders
 SELECT od.OrderDetailsID, od.OrderID, od.ISBN, od.Quantity
@@ -42,7 +43,7 @@ FROM OrderDetails AS od,
 WHERE od.OrderID = o.OrderID
   AND c.CustomerID = o.CustomerID
   AND c.CustomerID = [GIVEN CustomerID]
-  AND o.IsSpecial = true;
+  AND o.IsSpecial = TRUE;
 
 -- question 3.4 For a given customer, get details of all his/her purchases made during a specific period of time from a given branch.
 SELECT od.OrderDetailsID, od.OrderID, od.ISBN, od.Quantity, b.title AS Title
@@ -76,33 +77,33 @@ FROM Orders AS o,
      Publishers AS p,
      OrderDetails AS od
 WHERE o.OrderID = od.OrderID
-	  AND b.BranchID = od.BranchID
-	  AND b.BranchID = 1
-	  AND bo.ISBN = od.ISBN
-	  AND p.PublisherID = od.PublisherID
-	  AND Date(o.OrderDate) BETWEEN 'YYYY-MM-DD' AND 'YYYY-MM-DD'
+  AND b.BranchID = od.BranchID
+  AND b.BranchID = 1
+  AND bo.ISBN = od.ISBN
+  AND p.PublisherID = od.PublisherID
+  AND Date(o.OrderDate) BETWEEN 'YYYY-MM-DD' AND 'YYYY-MM-DD'
 GROUP BY od.OrderDetailsID;
 
 
 -- question 3.6 Find the title and name of publisher of book(s) that have the highest backorder
-SELECT b.Title, 
-	   p.PublisherName, 
+SELECT b.Title,
+       p.PublisherName,
        SUM(od.Quantity) AS Total_Sold
-FROM   Books as b, 
-	   Publishers as p, 
-       OrderDetails as od
-WHERE b.ISBN = od.ISBN  
-		AND p.PublisherID = od.PublisherID 
-		AND b.PublisherID = p.PublisherID 
-		AND od.PublisherID = b.PublisherID
+FROM Books AS b,
+     Publishers AS p,
+     OrderDetails AS od
+WHERE b.ISBN = od.ISBN
+  AND p.PublisherID = od.PublisherID
+  AND b.PublisherID = p.PublisherID
+  AND od.PublisherID = b.PublisherID
 GROUP BY b.ISBN
-HAVING Total_Sold= (SELECT MAX(q2.Quantity) FROM
-(
-SELECT  od.ISBN, 
-		SUM(od.Quantity) as Quantity 
-FROM OrderDetails AS od GROUP BY od.ISBN
-) as q2 );
-
+HAVING Total_Sold = (SELECT MAX(q2.Quantity)
+                     FROM (
+                              SELECT od.ISBN,
+                                     SUM(od.Quantity) AS Quantity
+                              FROM OrderDetails AS od
+                              GROUP BY od.ISBN
+                          ) AS q2);
 
 
 -- question 3.7 Give details of books that are supplied by a given publisher ordered by their sale price in increasing order.
