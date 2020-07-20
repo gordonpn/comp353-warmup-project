@@ -60,16 +60,13 @@ WHERE od.OrderID = o.OrderID
 
 -- question 3.5 Give a report of sales during a specific period of time for a given branch.
 SELECT o.OrderID,
-       c.CompanyName,
-       c.FirstName,
-       c.LastName,
+       bo.Title,
        b.Name,
        p.PublisherName,
        o.BookstoreID,
        (SELECT DISTINCT boo.SellingPrice
         FROM Books AS boo
         WHERE od.ISBN = boo.ISBN) * od.Quantity AS Total,
-#        od.orderDetailPrice AS Total,
        o.OrderDate,
        b.BranchID
 FROM Orders AS o,
@@ -79,14 +76,33 @@ FROM Orders AS o,
      Publishers AS p,
      OrderDetails AS od
 WHERE o.OrderID = od.OrderID
-#   AND c.CustomerID = o.CustomerID
-  AND b.BranchID = od.BranchID
-  AND b.BranchID = 1
-#   AND p.PublisherID = od.PublisherID;
-  AND Date(o.OrderDate) BETWEEN '2020-01-01' AND CURRENT_TIMESTAMP
-GROUP BY od.BranchID;
+	  AND b.BranchID = od.BranchID
+	  AND b.BranchID = 1
+	  AND bo.ISBN = od.ISBN
+	  AND p.PublisherID = od.PublisherID
+	  AND Date(o.OrderDate) BETWEEN 'YYYY-MM-DD' AND 'YYYY-MM-DD'
+GROUP BY od.OrderDetailsID;
+
 
 -- question 3.6 Find the title and name of publisher of book(s) that have the highest backorder
+SELECT b.Title, 
+	   p.PublisherName, 
+       SUM(od.Quantity) AS Total_Sold
+FROM   Books as b, 
+	   Publishers as p, 
+       OrderDetails as od
+WHERE b.ISBN = od.ISBN  
+		AND p.PublisherID = od.PublisherID 
+		AND b.PublisherID = p.PublisherID 
+		AND od.PublisherID = b.PublisherID
+GROUP BY b.ISBN
+HAVING Total_Sold= (SELECT MAX(q2.Quantity) FROM
+(
+SELECT  od.ISBN, 
+		SUM(od.Quantity) as Quantity 
+FROM OrderDetails AS od GROUP BY od.ISBN
+) as q2 );
+
 
 
 -- question 3.7 Give details of books that are supplied by a given publisher ordered by their sale price in increasing order.
@@ -96,7 +112,7 @@ FROM Books AS b,
      Publishers AS p
 WHERE b.PublisherID = p.PublisherID
   AND b.AuthorID = a.AuthorID
-  AND b.Publisher = [GIVEN PUBLISHER ID]
+  AND b.PublisherID = [GIVEN PUBLISHER ID]
 ORDER BY b.SellingPrice ASC;
 
 -- question 3.8 For all publishers who have at least three branches, get details of the head office and all the branches for those publishers.
@@ -117,10 +133,11 @@ WHERE b.RepresentativeID = r.RepresentativeID
   AND p.HeadOfficeID = h.HeadOfficeID
   AND (h.LocationID = l.LocationID)
   AND b.PublisherID IN (
-    SELECT b.PublisherID
+    SELECT PublisherID
     FROM Branches
-    GROUP BY b.PublisherID
-    HAVING Count(*) >= 3);
+    GROUP BY PublisherID
+    HAVING Count(*) >= 3)
+ORDER BY p.PublisherID ASC;
 
 -- question 3.9 Get details of books that are in the inventory for at least one year but there have never been a purchase for that specific book.
 SELECT b.ISBN, a.Name, b.Title, b.SellingPrice, b.CostPrice, p.PublisherName
@@ -132,7 +149,7 @@ WHERE b.PublisherID = p.PublisherID
   AND b.AuthorID = a.AuthorID
   AND i.ISBN = b.ISBN
   AND b.ISBN NOT IN (SELECT od.ISBN FROM OrderDetails AS od)
-  AND DATEDIFF(NOW(), i.stockDate) >= 1;
+  AND DATEDIFF(NOW(), i.StockDate) >= 1;
 
 -- question 3.10 Get details of all books that are in the inventory for a given author. 
 SELECT b.ISBN, a.Name, b.Title, b.SellingPrice, b.CostPrice, p.PublisherName
