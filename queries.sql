@@ -41,7 +41,8 @@ FROM OrderDetails AS od,
      Customers c
 WHERE od.OrderID = o.OrderID
   AND c.CustomerID = o.CustomerID
-  AND c.CustomerID = 1;
+  AND c.CustomerID = [GIVEN CustomerID]
+  AND o.IsSpecial = true;
 
 -- question 3.4 For a given customer, get details of all his/her purchases made during a specific period of time from a given branch.
 SELECT od.OrderDetailsID, od.OrderID, od.ISBN, od.Quantity, b.title AS Title
@@ -52,8 +53,8 @@ FROM OrderDetails AS od,
 WHERE od.OrderID = o.OrderID
   AND c.CustomerID = o.CustomerID
   AND od.ISBN = b.ISBN
-  AND o.Branch = [GIVEN BRANCHID]
-  AND o.Customer = [GIVEN ID]
+  AND od.BranchID = [GIVEN BranchID]
+  AND o.CustomerID = [GIVEN CustomerID]
   AND DATE (o.OrderDate) BETWEEN 'YYYY-MM-DD'
   AND 'YYYY-MM-DD';
 

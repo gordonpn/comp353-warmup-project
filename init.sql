@@ -86,11 +86,9 @@ CREATE TABLE Orders
     OrderDate   timestamp DEFAULT CURRENT_TIMESTAMP,
     CustomerID  int,
     BookstoreID int,
-    PublisherID int,
     IsSpecial   boolean DEFAULT false,
     FOREIGN KEY (CustomerID) REFERENCES Customers (CustomerID),
-    FOREIGN KEY (BookstoreID) REFERENCES Bookstores (BookstoreID),
-    FOREIGN KEY (PublisherID) REFERENCES Publishers (PublisherID)
+    FOREIGN KEY (BookstoreID) REFERENCES Bookstores (BookstoreID)
 );
 
 CREATE TABLE Books
