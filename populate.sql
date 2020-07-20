@@ -109,19 +109,19 @@ VALUES (1),
        (9),
        (10);
 
-INSERT INTO Orders(CustomerID, BookstoreID, PublisherID)
-VALUES (NULL, 4, 3),
-       (NULL, 2, 10),
-       (5, NULL, 3),
-       (1, NULL, 4),
-       (NULL, 5, 1),
-       (5, NULL, 2),
-       (4, NULL, 5),
-       (NULL, 6, 6),
-       (NULL, 8, 9),
-       (NULL, 7, 8),
-       (8, NULL, 7),
-       (5, NULL, 8);
+INSERT INTO Orders(CustomerID, BookstoreID, PublisherID, IsSpecial)
+VALUES (NULL, 4, 3, false),
+       (NULL, 2, 10, true),
+       (5, NULL, 3, true),
+       (1, NULL, 4, true),
+       (NULL, 5, 1, false),
+       (5, NULL, 2, false),
+       (4, NULL, 5, false),
+       (NULL, 6, 6, false),
+       (NULL, 8, 9, false),
+       (NULL, 7, 8, false),
+       (8, NULL, 7, false),
+       (5, NULL, 8, false);
 
 INSERT INTO Books(AuthorID, PublisherID, Title, SellingPrice, CostPrice)
 VALUES (1, 1, 'Clue of the Split Creek', 54.97, 19.22),
